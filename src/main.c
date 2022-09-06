@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:02 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/05 12:41:18 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/06 12:57:42 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 
 int	deal_key(int key, fdf *data)
 {
+	ft_printf("%d\n", key);
+	if (key == 18)
+		data->rotation_x -= 0.1;
+	if (key == 19)
+		data->rotation_x += 0.1;
+	if (key == 20)
+		data->rotation_y -= 0.1;
+	if (key == 21)
+		data->rotation_y += 0.1;
+	if (key == 22)
+		data->rotation_z -= 0.1;
+	if (key == 23)
+		data->rotation_z += 0.1;
 	if (key == 126)
 		data->shift_y -= 10;
 	if (key == 125)
@@ -110,7 +123,11 @@ int	main(int argc, char **argv)
 	read_file(argv[1], data);
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, 1000, 1000, "FDF");
-	data->zoom = 20;
+	data->zoom = 200;
+	data->rotation_x = 0.0;
+	data->rotation_y = 0.0;
+	data->rotation_z = 0.0;
+
 	draw(data);
 	mlx_key_hook(data->win_ptr, deal_key, data);
 	mlx_loop(data->mlx_ptr);

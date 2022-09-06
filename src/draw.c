@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:32:31 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/05 12:49:00 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/06 13:08:23 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,55 @@ float	f_mod(float num)
 void	isometric(float *x, float *y, int z)
 {
 	*x = (*x - *y) * cos(0.8);
-	*y = (*x + *y) * sin(0.8) - z;
+	*y = (*x + *y) * sin(0.8 ) - z;
+}
+
+void	rotation_x(float *x, float *y, int *z, fdf *data)
+{
+	float ac_x;
+	float ac_y;
+	float ac_z;
+	float test;
+
+	ac_x = *x;
+	ac_y = *y;
+	ac_z = *z;
+
+	*x = ac_x;
+	test = (cos(data->rotation_x) * ac_y) - (sin(data->rotation_x) * ac_z);
+	*y = test;
+	*z = (sin(data->rotation_x) * ac_y) + (cos(data->rotation_x) * ac_z);
+}
+
+void	rotation_y(float *x, float *y, int *z, fdf *data)
+{
+	float ac_x;
+	float ac_y;
+	float ac_z;
+
+	ac_x = *x;
+	ac_y = *y;
+	ac_z = *z;
+
+	*x = (cos(data->rotation_y) * ac_x) + (sin(data->rotation_y) * ac_z);
+	*y = ac_y;
+	*z = -(sin(data->rotation_y) * ac_x) + (cos(data->rotation_y) * ac_z);
+}
+
+void	rotation_z(float *x, float *y, int *z, fdf *data)
+{
+	float ac_x;
+	float ac_y;
+	float ac_z;
+
+	ac_x = *x;
+	ac_y = *y;
+	ac_z = *z;
+
+	*x = (cos(data->rotation_z) * ac_x) - (sin(data->rotation_z) * ac_y);
+	*y = (sin(data->rotation_z) * ac_x) + (cos(data->rotation_z) * ac_y);
+	*z = ac_z;
+
 }
 
 void	bresenham(float x, float y, float x1, float y1, fdf *data)
@@ -49,6 +97,12 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 	x1 *= data->zoom;
 	y1 *= data->zoom;
 	data->color = (z || z1) ? 0xe80c0c : 0xffffff;
+	rotation_x(&x, &y, &z, data);
+	rotation_x(&x1, &y1, &z1, data);
+	rotation_y(&x, &y, &z, data);
+	rotation_y(&x1, &y1, &z1, data);
+	rotation_z(&x, &y, &z, data);
+	rotation_z(&x1, &y1, &z1, data);
 	isometric(&x, &y, z);
 	isometric(&x1, &y1, z1);
 	x += data->shift_x;
@@ -68,6 +122,22 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 	}
 }
 
+// void test(float x, float y, fdf *data)
+// {
+// 	int z;
+// 	int x2d;
+// 	int y2d;
+
+// 	x2d = 0.0;
+// 	y2d = 0.0;
+// 	z = data->z_matrix[(int)y][(int)x];
+// 	ft_printf("[%i, %i, %i] --- ", x, y, z);
+// 	x2d = ((x * 0.8660 * -1) + (y * 0.8660));
+// 	y2d = (x * -0.5) + (y * -0.5) + z;
+// 	ft_printf("[%i, %i] \n", x2d, y2d);
+// 	mlx_pixel_put(data->mlx_ptr, data->win_ptr, (x2d * data->zoom) + 100, (y2d * data->zoom) - 100, 0xffffff);
+// }
+
 void	draw(fdf *data)
 {
 	int	x;
@@ -79,9 +149,10 @@ void	draw(fdf *data)
 		x = 0;
 		while (x < data->width)
 		{
+			// test((float)x, (float)y, data);
 			if (x < data->width - 1)
 				bresenham(x, y, x + 1, y, data);
-			if (y < data-> height - 1)
+			if (y < data->height - 1)
 				bresenham(x, y, x, y + 1, data);
 			x++;
 		}
