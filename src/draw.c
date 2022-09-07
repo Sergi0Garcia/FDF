@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:32:31 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/06 13:08:23 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:45:42 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ float	f_mod(float num)
 void	isometric(float *x, float *y, int z)
 {
 	*x = (*x - *y) * cos(0.8);
-	*y = (*x + *y) * sin(0.8 ) - z;
+	*y = (*x + *y) * sin(0.8) - z;
 }
 
 void	rotation_x(float *x, float *y, int *z, fdf *data)
@@ -89,14 +89,29 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 	int		max;
 	int		z;
 	int		z1;
+	int		c;
 
 	z = data->z_matrix[(int)y][(int)x];
 	z1 = data->z_matrix[(int)y1][(int)x1];
+	c = data->hex_color[(int)y][(int)x];
 	x *= data->zoom;
 	y *= data->zoom;
 	x1 *= data->zoom;
 	y1 *= data->zoom;
-	data->color = (z || z1) ? 0xe80c0c : 0xffffff;
+
+	// ft_printf("Hexcolor: %i\n", data->hex_color[(int)y][(int)x]);
+	// if (data->hex_color[(int)y][(int)x])
+	// {
+	// 	ft_printf("Hexcolor: %i\n", data->hex_color[(int)y][(int)x]);
+	// 	data->color = data->hex_color[(int)y][(int)x];
+	// }
+	// else
+	if (c)
+		data->color = c;
+	else if (z || z1)
+		data->color = 0xFF0000;
+	else
+		data->color = 0xFFFFFF;
 	rotation_x(&x, &y, &z, data);
 	rotation_x(&x1, &y1, &z1, data);
 	rotation_y(&x, &y, &z, data);
@@ -119,6 +134,8 @@ void	bresenham(float x, float y, float x1, float y1, fdf *data)
 		mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->color);
 		x += x_step;
 		y += y_step;
+		// if (x > 1000 || y > 1000 || y < 0 || x < 0)
+		// 	break ;
 	}
 }
 

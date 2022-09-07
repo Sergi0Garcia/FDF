@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/06 12:55:07 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/07 13:10:14 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct
 	int	width;
 	int height;
 	int **z_matrix;
+	int **hex_color;
 	int zoom;
 	int	color;
 	int shift_x;
