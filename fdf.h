@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/07 13:10:14 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:23:48 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,24 @@ typedef struct
 	int height;
 	int **z_matrix;
 	int **hex_color;
-	int zoom;
 	int	color;
+	float z_mult;
 	int shift_x;
 	int shift_y;
 	float rotation_x;
 	float rotation_y;
 	float rotation_z;
-
+	int zoom;
+	int	win_x;
+	int win_y;
+	int is_isometric;
 	void *mlx_ptr;
 	void *win_ptr;
-}	fdf;
+}	fdf_data;
 
-void	draw(fdf *data);
+void	draw(fdf_data *data);
+int		ft_hex_to_int(char *hex);
+void	fdf_print_menu(fdf_data *data);
+void	rotation(float *x, float *y, int *z, fdf_data *data);
 
 #endif

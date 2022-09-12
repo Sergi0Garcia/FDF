@@ -6,14 +6,14 @@
 #    By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/23 11:05:56 by segarcia          #+#    #+#              #
-#    Updated: 2022/09/05 09:53:16 by segarcia         ###   ########.fr        #
+#    Updated: 2022/09/12 10:22:42 by segarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FRAEMWORKS=-framework OpenGL -framework AppKit
-FLAGS=-Werror -Wextra -Wall
-NAME=fdf
-SRC=src/*.c
+FRAEMWORKS = -framework OpenGL -framework AppKit
+FLAGS = -Werror -Wextra -Wall
+NAME = fdf
+SRC = src/*.c
 INCLUDES	=	ft_libft/ft_bonus/libft_ft_bonus.a 			\
 				ft_libft/ft_extra/libft_ft_extra.a 			\
  				ft_libft/ft_func/libft_ft_func.a 			\

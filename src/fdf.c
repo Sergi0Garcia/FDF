@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:02 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/07 14:47:41 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:33:04 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-int	deal_key(int key, fdf *data)
+int	deal_key(int key, fdf_data *data)
 {
 	ft_printf("%d\n", key);
+	int val;
+	if (key == 34)
+	{
+		val = data->is_isometric;
+		if (val == 1)
+			data->is_isometric = 0;
+		if (val == 0)
+			data->is_isometric = 1;
+	}
 	if (key == 18)
 		data->rotation_x -= 0.1;
 	if (key == 19)
@@ -31,6 +40,10 @@ int	deal_key(int key, fdf *data)
 		data->shift_y -= 50;
 	if (key == 125)
 		data->shift_y += 50;
+	if (key == 6)
+		data->z_mult += 0.2;
+	if (key == 7)
+		data->z_mult -= 0.2;
 	if (key == 123)
 		data->shift_x -= 50;
 	if (key == 124)
@@ -38,9 +51,18 @@ int	deal_key(int key, fdf *data)
 	if (key == 24)
 		data->zoom += 10;
 	if (key == 27)
-		data->zoom -= 10;
+	{
+		if (data->zoom <= 1)
+			data->zoom /= 2;
+		else
+		 data->zoom -= 2;
+	}
 	if (key == 53)
+	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		free(data);
+		exit(0);
+	}
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	draw(data);
 	return (0);
@@ -71,42 +93,6 @@ int	get_width(char *filename)
 	free(line);
 	close(fd);
 	return (width);
-}
-
-int hextodc(char *hex){
-	int val;
-	int i;
-	int dec;
-	int len;
-
-	val = 0;
-	i = 0;
-	dec = 0;
-	len = ft_strlen(hex) - 2;
-	ft_printf("hectodec\n");
-	while(hex[i])
-    {
-		if (hex[0] == '0' && hex[1] == 'x' && i == 0)
-			i = 2;
-        if(hex[i]>='0' && hex[i]<='9')
-        {
-            val = hex[i] - 48;
-        }
-        else if(hex[i]>='a' && hex[i]<='f')
-        {
-            val = hex[i] - 97 + 10;
-        }
-        else if(hex[i]>='A' && hex[i]<='F')
-        {
-            val = hex[i] - 65 + 10;
-        }
-		// ft_printf("VAL: %i\n", val);
-        dec += val * pow(16, len - 1);
-        len--;
-		i++;
-    }
-	// ft_printf("END");
-	return dec;
 }
 
 int	is_valid_hex_format(char *str)
@@ -141,17 +127,12 @@ void	fill_row_matrix(int *row, int *color, char *line)
 	flag = 0;
 	while(num[i])
 	{
-		// ft_printf("%s\n", num[i]);
 		if (is_valid_hex_format(num[i]))
 		{
 			flag = 1;
-			// ft_printf("is valid hex \n");
 			hex = ft_split(num[i], ',');
 			row[i] = ft_atoi(hex[0]);
-			// ft_printf("Printing atoi: %i\n", ft_atoi(hex[0]));
-			// ft_printf("ckpt: %s\n", color[i]);
-			color[i] = hextodc(hex[1]);
-			// ft_printf("[%i] - [%i]\n", row[i], color[i]);
+			color[i] = ft_hex_to_int(hex[1]);
 			free(num[i]);
 			free(hex[0]);
 			free(hex[1]);
@@ -162,7 +143,6 @@ void	fill_row_matrix(int *row, int *color, char *line)
 			color[i] = 0;
 			free(num[i]);
 		}
-		ft_printf("[%i]-[%i]\n", row[i], color[i]);
 		i++;
 	}
 	free(num);
@@ -170,7 +150,7 @@ void	fill_row_matrix(int *row, int *color, char *line)
 		free(hex);
 }
 
-void	read_file(char *filename, fdf *data)
+void	read_file(char *filename, fdf_data *data)
 {
 	int		fd;
 	char	*line;
@@ -189,10 +169,6 @@ void	read_file(char *filename, fdf *data)
 	}
 	fd = open(filename, O_RDONLY, 0);
 	i = 0;
-	ft_printf(" ------------------ \n");
-	ft_printf("Width: %i\n", data->width);
-	ft_printf("Heigth: %i\n", data->height);
-	ft_printf(" ------------------ \n");
 	while (i < data->height)
 	{
 		line = get_next_line(fd);
@@ -203,21 +179,34 @@ void	read_file(char *filename, fdf *data)
 	close(fd);
 }
 
-int	main(int argc, char **argv)
+void set_default(fdf_data *data)
 {
-	fdf	*data;
-
-	if (argc != 2)
-		return (-1);
-	data = (fdf *)malloc(sizeof(fdf));
-	read_file(argv[1], data);
-	data->mlx_ptr = mlx_init();
-	data->win_ptr = mlx_new_window(data->mlx_ptr, 2000, 2000, "FDF");
-	data->zoom = 10;
+	data->z_mult = 1;
+	data->shift_x = 500;
+	data->shift_y = 300;
 	data->rotation_x = 0.0;
 	data->rotation_y = 0.0;
 	data->rotation_z = 0.0;
+	data->zoom = 10;
+	data->win_x = 1000;
+	data->win_y = 1000;
+	data->is_isometric = 0;
+}
 
+int	main(int argc, char **argv)
+{
+	fdf_data	*data;
+
+	if (argc != 2)
+	{
+		ft_printf("Usage: ./fdf <filename>\n");
+		exit(1);
+	}
+	data = (fdf_data *)malloc(sizeof(fdf_data));
+	set_default(data);
+	read_file(argv[1], data);
+	data->mlx_ptr = mlx_init();
+	data->win_ptr = mlx_new_window(data->mlx_ptr, data->win_x, data->win_y, "FDF");
 	draw(data);
 	mlx_key_hook(data->win_ptr, deal_key, data);
 	mlx_loop(data->mlx_ptr);
