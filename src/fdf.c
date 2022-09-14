@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:02 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 13:55:15 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:33:46 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ int	main(int argc, char **argv)
 	draw(fdf);
 	mlx_key_hook(fdf->win_ptr, key_handler, fdf);
 	mlx_loop(fdf->mlx_ptr);
-	system("leaks a.out");
+	system("leaks fdf");
 }

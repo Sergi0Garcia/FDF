@@ -6,11 +6,11 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 13:22:54 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 14:04:35 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:25:34 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../fdf.h"
+#include "../fdf.h"
 
 static void	handle_size(int key, fdf_data *data)
 {
@@ -20,8 +20,6 @@ static void	handle_size(int key, fdf_data *data)
 		data->win_y = 1400;
 		if (data->zoom < 30)
 		data->zoom = 30;
-		data->shift_x = data->win_x / 2;
-		data->shift_y = data->win_y / 3;
 	}
 	if (key == 4)
 	{
@@ -29,8 +27,6 @@ static void	handle_size(int key, fdf_data *data)
 		data->win_y = 720;
 		if (data->zoom < 20)
 		data->zoom = 20;
-		data->shift_x = data->win_x / 2;
-		data->shift_y = data->win_y / 3;
 	}
 	if (key == 5)
 	{
@@ -38,19 +34,19 @@ static void	handle_size(int key, fdf_data *data)
 		data->win_y = 1080;
 		if (data->zoom < 20)
 		data->zoom = 20;
-		data->shift_x = data->win_x / 2;
-		data->shift_y = data->win_y / 3;
 	}
 }
 
-int	full_size(int key, fdf_data *data)
+int	full_size(int key, fdf_data *d)
 {
-	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	handle_size(key, data);
-	data->mlx_ptr = mlx_init();
-	data->win_ptr = mlx_new_window(data->mlx_ptr, data->win_x, data->win_y, "FDF");
-	draw(data);
-	mlx_key_hook(data->win_ptr, key_handler, data);
-	mlx_loop(data->mlx_ptr);
+	mlx_destroy_window(d->mlx_ptr, d->win_ptr);
+	handle_size(key, d);
+	d->shift_x = d->win_x / 2;
+	d->shift_y = d->win_y / 3;
+	d->mlx_ptr = mlx_init();
+	d->win_ptr = mlx_new_window(d->mlx_ptr, d->win_x, d->win_y, "FDF");
+	draw(d);
+	mlx_key_hook(d->win_ptr, key_handler, d);
+	mlx_loop(d->mlx_ptr);
 	return (0);
 }

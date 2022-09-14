@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:41:50 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 12:20:28 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:46:21 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ static int	is_valid_hex_format(char *str)
 	return (0);
 }
 
+void	free_hex(char **hex)
+{
+	free(hex[0]);
+	free(hex[1]);
+	free(hex[2]);
+	free(hex);
+}
+
 static void	fill_row_matrix(int *row, int *color, char *line)
 {
 	char	**num;
@@ -78,8 +86,7 @@ static void	fill_row_matrix(int *row, int *color, char *line)
 			row[i] = ft_atoi(hex[0]);
 			color[i] = ft_hex_to_int(hex[1]);
 			free(num[i]);
-			free(hex[0]);
-			free(hex[1]);
+			free_hex(hex);
 		}
 		else
 		{
@@ -92,6 +99,7 @@ static void	fill_row_matrix(int *row, int *color, char *line)
 	free(num);
 	if (flag)
 		free(hex);
+	system("leaks fdf");
 }
 
 void	read_map(char *filename, fdf_data *data)
@@ -121,4 +129,5 @@ void	read_map(char *filename, fdf_data *data)
 		i++;
 	}
 	close(fd);
+	// system("leaks fdf");
 }
