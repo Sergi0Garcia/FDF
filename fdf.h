@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 10:56:03 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/14 13:50:35 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	rotation_xyz(float *x, float *y, float *z, fdf_data *data);
 void	read_map(char *filename, fdf_data *data);
 void	ft_handle_2d(float *x, float *y, fdf_data *data);
 void	ft_handle_3d(float *x, float *y, float *z, fdf_data *data);
+int		full_size(int key, fdf_data *data);
 #endif

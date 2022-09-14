@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   fdf_draw.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:32:31 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 11:13:51 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:04:46 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,54 +30,59 @@ void	define_color(int c, int is_z, fdf_data *data)
 		data->color = 0xFFFFFF;
 }
 
-void	bresenham(float x, float y, char increment, fdf_data *data)
+void	plane_setter(point *plane, fdf_data *data, char increment)
 {
-	point	*plane;
-	int		max;
-	float	x1;
-	float	y1;
-
-	plane = (point *)malloc(sizeof(point));
 	if (increment == 'x')
 	{
-		plane->x1 = x + 1;
-		plane->y1 = y;
+		plane->x1 = plane->x + 1;
+		plane->y1 = plane->y;
 	}
 	if (increment == 'y')
 	{
-		plane->x1 = x;
-		plane->y1 = y + 1;
+		plane->x1 = plane->x;
+		plane->y1 = plane->y + 1;
 	}
-	x1 = plane->x1;
-	y1 = plane->y1;
-	ft_printf("x");
-	plane->z = (data->z_matrix[(int)y][(int)x]) * data->z_mult;
-	ft_printf("x");
-	plane->z1 = (data->z_matrix[(int)y1][(int)x1]) * data->z_mult;
-	ft_printf("x");
-	define_color(data->hex_color[(int)y][(int)x], plane->z || plane->z1, data);
-	ft_printf("x");
-	if (data->is_isometric == 1)
-	{
-		ft_handle_3d(&x, &y, &plane->z, data);
-		ft_handle_3d(&plane->x1, &plane->y1, &plane->z1, data);
-	}
-	ft_printf("x");
-	ft_handle_2d(&x, &y, data);
-	ft_handle_2d(&plane->x1, &plane->y1, data);
-	plane->x_step = plane->x1 - x;
-	plane->y_step = plane->y1 - y;
+	plane->z = (data->z_matrix[(int)plane->y][(int)plane->x]) * data->z_mult;
+	plane->z1 = (data->z_matrix[(int)plane->y1][(int)plane->x1]) * data->z_mult;
+}
+
+void	increment_handler(point	*plane)
+{
+	int	max;
+
+	plane->x_step = plane->x1 - plane->x;
+	plane->y_step = plane->y1 - plane->y;
 	max = f_max(fabs(plane->x_step), fabs(plane->y_step));
 	plane->x_step /= max;
 	plane->y_step /= max;
-	while ((int)(x - plane->x1) || (int)(y - plane->y1))
+}
+
+void	bresenham(float x, float y, char increment, fdf_data *data)
+{
+	point	*p;
+
+	p = (point *)malloc(sizeof(point));
+	p->x = x;
+	p->y = y;
+	plane_setter(p, data, increment);
+	define_color(data->hex_color[(int)p->y][(int)p->x], p->z || p->z1, data);
+	if (data->is_isometric == 1)
 	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->color);
-		x += plane->x_step;
-		y += plane->y_step;
-		if (x > data->win_x || y > data->win_y || y < 0 || x < 0)
+		ft_handle_3d(&p->x, &p->y, &p->z, data);
+		ft_handle_3d(&p->x1, &p->y1, &p->z1, data);
+	}
+	ft_handle_2d(&p->x, &p->y, data);
+	ft_handle_2d(&p->x1, &p->y1, data);
+	increment_handler(p);
+	while ((int)(p->x - p->x1) || (int)(p->y - p->y1))
+	{
+		mlx_pixel_put(data->mlx_ptr, data->win_ptr, p->x, p->y, data->color);
+		p->x += p->x_step;
+		p->y += p->y_step;
+		if (p->x > data->win_x || p->y > data->win_y || p->y < 0 || p->x < 0)
 			break ;
 	}
+	free(p);
 }
 
 void	draw(fdf_data *data)
