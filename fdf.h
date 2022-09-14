@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/12 14:33:56 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/14 10:56:03 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,24 @@ typedef struct
 	void *win_ptr;
 }	fdf_data;
 
+typedef struct
+{
+	float	x_step;
+	float	y_step;
+	float	x;
+	float 	y;
+	float	x1;
+	float	y1;
+	float	z;
+	float	z1;
+}	point;
+
 int		key_handler(int key, fdf_data *data);
 void	draw(fdf_data *data);
 int		ft_hex_to_int(char *hex);
 void	fdf_print_menu(fdf_data *data);
 void	rotation_xyz(float *x, float *y, float *z, fdf_data *data);
 void	read_map(char *filename, fdf_data *data);
-void	translation(float *x, float *y, fdf_data *data);
-void	isometric(float *x, float *y, float *z);
-void	ft_zoom(float *x, float *y, fdf_data *data);
-
+void	ft_handle_2d(float *x, float *y, fdf_data *data);
+void	ft_handle_3d(float *x, float *y, float *z, fdf_data *data);
 #endif
