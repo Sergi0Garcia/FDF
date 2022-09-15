@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/15 11:37:19 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 13:53:10 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "./minilibx_macos/mlx.h"
 # include "./ft_libft/libft.h"
 # include <unistd.h>
+# include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
@@ -64,4 +65,6 @@ void	ft_handle_3d(float *x, float *y, float *z, t_fdf *d);
 int		full_size(int key, t_fdf *d);
 int		is_valid_hex_format(char *str);
 float	f_max(float a, float b);
+void	fd_validation(int fd);
+void	argc_validation(int	argc);
 #endif

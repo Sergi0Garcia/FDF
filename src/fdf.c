@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:02 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/15 11:39:52 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 13:54:50 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,14 @@ void	set_default(t_fdf *d)
 
 int	main(int argc, char **argv)
 {
-	t_fdf	*fdf;
+	t_fdf	*data;
 
-	if (argc != 2)
-	{
-		ft_printf("Usage: ./fdf <filename>\n");
-		exit(1);
-	}
-	fdf = (t_fdf *)malloc(sizeof(t_fdf));
-	set_default(fdf);
-	read_map(argv[1], fdf);
-	draw(fdf);
-	mlx_key_hook(fdf->win_ptr, key_handler, fdf);
-	mlx_loop(fdf->mlx_ptr);
+	argc_validation(argc);
+	data = (t_fdf *)malloc(sizeof(t_fdf));
+	set_default(data);
+	read_map(argv[1], data);
+	draw(data);
+	mlx_key_hook(data->win_ptr, key_handler, data);
+	mlx_loop(data->mlx_ptr);
 	system("leaks fdf");
 }

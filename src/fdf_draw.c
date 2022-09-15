@@ -6,18 +6,21 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:32:31 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/15 11:36:55 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 13:29:28 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
+#include <stdio.h>
 
-void	define_color(int c, int is_z, t_fdf *d)
+void	define_color(int c, float z, float z1, t_fdf *d)
 {
 	if (c)
 		d->color = c;
-	else if (is_z)
-		d->color = 0xFF0000;
+	else if ((z || z1) && (z == z1))
+		d->color = 0xBF40BF;
+	else if ((z || z1) && (z != z1))
+		d->color = 0xFFFFFF;
 	else
 		d->color = 0xFFFFFF;
 }
@@ -57,7 +60,7 @@ void	bresenham(float x, float y, char increment, t_fdf *d)
 	p->x = x;
 	p->y = y;
 	plane_setter(p, d, increment);
-	define_color(d->hex_color[(int)p->y][(int)p->x], p->z || p->z1, d);
+	define_color(d->hex_color[(int)p->y][(int)p->x], p->z, p->z1, d);
 	if (d->is_isometric == 1)
 	{
 		ft_handle_3d(&p->x, &p->y, &p->z, d);
@@ -71,7 +74,7 @@ void	bresenham(float x, float y, char increment, t_fdf *d)
 		mlx_pixel_put(d->mlx_ptr, d->win_ptr, p->x, p->y, d->color);
 		p->x += p->x_step;
 		p->y += p->y_step;
-		if (p->x > d->win_x || p->y > d->win_y || p->y < 0 || p->x < 0)
+		if (p->x > d->win_x || p->y > d->win_y)
 			break ;
 	}
 	free(p);

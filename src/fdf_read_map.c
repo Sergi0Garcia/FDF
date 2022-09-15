@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:41:50 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/15 11:37:25 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 14:05:05 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	get_height(char *filename)
 	char	*line;
 
 	fd = open(filename, O_RDONLY, 0);
+	fd_validation(fd);
 	height = 0;
 	line = get_next_line(fd);
 	while (line && ft_strlen(line))
@@ -38,6 +39,7 @@ static int	get_width(char *filename)
 	char	*line;
 
 	fd = open(filename, O_RDONLY, 0);
+	fd_validation(fd);
 	line = get_next_line(fd);
 	width = ft_width_counter(line);
 	free(line);
@@ -90,15 +92,27 @@ void	read_map(char *filename, t_fdf *d)
 	d->height = get_height(filename);
 	d->width = get_width(filename);
 	d->z_matrix = (int **)malloc(sizeof(int *) * (d->height + 1));
+	if (!d->z_matrix)
+	{
+		perror("Error");
+		exit(EXIT_FAILURE);
+	}
 	d->hex_color = (int **)malloc(sizeof(int *) * (d->height + 1));
+	if (!d->hex_color)
+	{
+		perror("Error");
+		exit(EXIT_FAILURE);
+	}
 	i = 0;
 	while (i <= d->height)
 	{
 		d->z_matrix[i] = (int *)malloc(sizeof(int) * (d->width + 1));
 		d->hex_color[i] = (int *)malloc(sizeof(int) * (d->width + 1));
+		// TODO FREE WHEN ERROR IN MALLOC
 		i++;
 	}
 	fd = open(filename, O_RDONLY, 0);
+	fd_validation(fd);
 	i = 0;
 	while (i < d->height)
 	{
@@ -108,4 +122,5 @@ void	read_map(char *filename, t_fdf *d)
 		i++;
 	}
 	close(fd);
+	system("leaks fdf");
 }
