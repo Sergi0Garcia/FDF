@@ -6,48 +6,48 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:21:51 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 12:14:48 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:35:38 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-static void	rotation_x(float *y, float *z, fdf_data *data)
+static void	rotation_x(float *y, float *z, t_fdf *d)
 {
 	float	ac_y;
 	float	ac_z;
 
 	ac_y = *y;
 	ac_z = *z;
-	*y = (cos(data->rotation_x) * ac_y) - (sin(data->rotation_x) * ac_z);
-	*z = (sin(data->rotation_x) * ac_y) + (cos(data->rotation_x) * ac_z);
+	*y = (cos(d->rotation_x) * ac_y) - (sin(d->rotation_x) * ac_z);
+	*z = (sin(d->rotation_x) * ac_y) + (cos(d->rotation_x) * ac_z);
 }
 
-static void	rotation_y(float *x, float *z, fdf_data *data)
+static void	rotation_y(float *x, float *z, t_fdf *d)
 {
 	float	ac_x;
 	float	ac_z;
 
 	ac_x = *x;
 	ac_z = *z;
-	*x = (cos(data->rotation_y) * ac_x) + (sin(data->rotation_y) * ac_z);
-	*z = -(sin(data->rotation_y) * ac_x) + (cos(data->rotation_y) * ac_z);
+	*x = (cos(d->rotation_y) * ac_x) + (sin(d->rotation_y) * ac_z);
+	*z = -(sin(d->rotation_y) * ac_x) + (cos(d->rotation_y) * ac_z);
 }
 
-static void	rotation_z(float *x, float *y, fdf_data *data)
+static void	rotation_z(float *x, float *y, t_fdf *d)
 {
 	float	ac_x;
 	float	ac_y;
 
 	ac_x = *x;
 	ac_y = *y;
-	*x = (cos(data->rotation_z) * ac_x) - (sin(data->rotation_z) * ac_y);
-	*y = (sin(data->rotation_z) * ac_x) + (cos(data->rotation_z) * ac_y);
+	*x = (cos(d->rotation_z) * ac_x) - (sin(d->rotation_z) * ac_y);
+	*y = (sin(d->rotation_z) * ac_x) + (cos(d->rotation_z) * ac_y);
 }
 
-void	rotation_xyz(float *x, float *y, float *z, fdf_data *data)
+void	rotation_xyz(float *x, float *y, float *z, t_fdf *d)
 {
-	rotation_x(y, z, data);
-	rotation_y(x, z, data);
-	rotation_z(x, y, data);
+	rotation_x(y, z, d);
+	rotation_y(x, z, d);
+	rotation_z(x, y, d);
 }

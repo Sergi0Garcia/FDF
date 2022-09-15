@@ -6,13 +6,13 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 11:50:16 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 14:22:40 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:37:23 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-void	fdf_print_menu(fdf_data *d)
+void	fdf_print_menu(t_fdf *d)
 {
 	int	color;
 

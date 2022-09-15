@@ -6,38 +6,38 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 13:22:54 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 14:25:34 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:37:22 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-static void	handle_size(int key, fdf_data *data)
+static void	handle_size(int key, t_fdf *d)
 {
 	if (key == 3)
 	{
-		data->win_x = 2560;
-		data->win_y = 1400;
-		if (data->zoom < 30)
-		data->zoom = 30;
+		d->win_x = 2560;
+		d->win_y = 1400;
+		if (d->zoom < 30)
+		d->zoom = 30;
 	}
 	if (key == 4)
 	{
-		data->win_x = 1280;
-		data->win_y = 720;
-		if (data->zoom < 20)
-		data->zoom = 20;
+		d->win_x = 1280;
+		d->win_y = 720;
+		if (d->zoom < 20)
+		d->zoom = 20;
 	}
 	if (key == 5)
 	{
-		data->win_x = 1080;
-		data->win_y = 1080;
-		if (data->zoom < 20)
-		data->zoom = 20;
+		d->win_x = 1080;
+		d->win_y = 1080;
+		if (d->zoom < 20)
+		d->zoom = 20;
 	}
 }
 
-int	full_size(int key, fdf_data *d)
+int	full_size(int key, t_fdf *d)
 {
 	mlx_destroy_window(d->mlx_ptr, d->win_ptr);
 	handle_size(key, d);

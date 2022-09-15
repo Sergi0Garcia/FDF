@@ -6,101 +6,93 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:32:31 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 14:22:27 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:36:55 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-float	f_max(float a, float b)
-{
-	if (a > b)
-		return (a);
-	else
-		return (b);
-}
-
-void	define_color(int c, int is_z, fdf_data *data)
+void	define_color(int c, int is_z, t_fdf *d)
 {
 	if (c)
-		data->color = c;
+		d->color = c;
 	else if (is_z)
-		data->color = 0xFF0000;
+		d->color = 0xFF0000;
 	else
-		data->color = 0xFFFFFF;
+		d->color = 0xFFFFFF;
 }
 
-void	plane_setter(point *plane, fdf_data *data, char increment)
+void	plane_setter(t_plane *p, t_fdf *d, char increment)
 {
 	if (increment == 'x')
 	{
-		plane->x1 = plane->x + 1;
-		plane->y1 = plane->y;
+		p->x1 = p->x + 1;
+		p->y1 = p->y;
 	}
 	if (increment == 'y')
 	{
-		plane->x1 = plane->x;
-		plane->y1 = plane->y + 1;
+		p->x1 = p->x;
+		p->y1 = p->y + 1;
 	}
-	plane->z = (data->z_matrix[(int)plane->y][(int)plane->x]) * data->z_mult;
-	plane->z1 = (data->z_matrix[(int)plane->y1][(int)plane->x1]) * data->z_mult;
+	p->z = (d->z_matrix[(int)p->y][(int)p->x]) * d->z_mult;
+	p->z1 = (d->z_matrix[(int)p->y1][(int)p->x1]) * d->z_mult;
 }
 
-void	increment_handler(point	*plane)
+void	increment_handler(t_plane	*p)
 {
 	int	max;
 
-	plane->x_step = plane->x1 - plane->x;
-	plane->y_step = plane->y1 - plane->y;
-	max = f_max(fabs(plane->x_step), fabs(plane->y_step));
-	plane->x_step /= max;
-	plane->y_step /= max;
+	p->x_step = p->x1 - p->x;
+	p->y_step = p->y1 - p->y;
+	max = f_max(fabs(p->x_step), fabs(p->y_step));
+	p->x_step /= max;
+	p->y_step /= max;
 }
 
-void	bresenham(float x, float y, char increment, fdf_data *data)
+void	bresenham(float x, float y, char increment, t_fdf *d)
 {
-	point	*p;
+	t_plane	*p;
 
-	p = (point *)malloc(sizeof(point));
+	p = (t_plane *)malloc(sizeof(t_plane));
 	p->x = x;
 	p->y = y;
-	plane_setter(p, data, increment);
-	define_color(data->hex_color[(int)p->y][(int)p->x], p->z || p->z1, data);
-	if (data->is_isometric == 1)
+	plane_setter(p, d, increment);
+	define_color(d->hex_color[(int)p->y][(int)p->x], p->z || p->z1, d);
+	if (d->is_isometric == 1)
 	{
-		ft_handle_3d(&p->x, &p->y, &p->z, data);
-		ft_handle_3d(&p->x1, &p->y1, &p->z1, data);
+		ft_handle_3d(&p->x, &p->y, &p->z, d);
+		ft_handle_3d(&p->x1, &p->y1, &p->z1, d);
 	}
-	ft_handle_2d(&p->x, &p->y, data);
-	ft_handle_2d(&p->x1, &p->y1, data);
+	ft_handle_2d(&p->x, &p->y, d);
+	ft_handle_2d(&p->x1, &p->y1, d);
 	increment_handler(p);
 	while ((int)(p->x - p->x1) || (int)(p->y - p->y1))
 	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, p->x, p->y, data->color);
+		mlx_pixel_put(d->mlx_ptr, d->win_ptr, p->x, p->y, d->color);
 		p->x += p->x_step;
 		p->y += p->y_step;
-		if (p->x > data->win_x || p->y > data->win_y || p->y < 0 || p->x < 0)
+		if (p->x > d->win_x || p->y > d->win_y || p->y < 0 || p->x < 0)
 			break ;
 	}
 	free(p);
 }
 
-void	draw(fdf_data *data)
+void	draw(t_fdf *d)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	fdf_print_menu(data);
-	while (y < data->height)
+	fdf_print_menu(d);
+	while (y < d->height)
 	{
 		x = 0;
-		while (x < data->width)
+		while (x < d->width)
 		{
-			if (x < data->width - 1)
-				bresenham(x, y, 'x', data);
-			if (y < data->height - 1)
-				bresenham(x, y, 'y', data);
+			if (x < d->width - 1)
+				bresenham(x, y, 'x', d);
+			if (y < d->height - 1)
+				bresenham(x, y, 'y', d);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:40 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/14 12:14:57 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:37:26 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,32 @@ int	ft_hex_to_int(char *hex)
 		i++;
 	}
 	return (dec);
+}
+
+int	is_valid_hex_format(char *str)
+{
+	int	i;
+	int	len;
+	int	cc;
+
+	i = 0;
+	cc = 0;
+	len = ft_strlen(str);
+	while (i < len)
+	{
+		if (str[i] == ',')
+			cc++;
+		i++;
+	}
+	if (cc == 1)
+		return (1);
+	return (0);
+}
+
+float	f_max(float a, float b)
+{
+	if (a > b)
+		return (a);
+	else
+		return (b);
 }
