@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/19 12:46:05 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:15:17 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,15 @@ int		full_size(int key, t_fdf *d);
 int		is_valid_hex_format(char *str);
 float	f_max(float a, float b);
 void	fd_validation(int fd);
-void	argc_validation(int	argc);
+void	argc_validation(int argc);
 void	malloc_error(t_fdf *d);
 void	free_with_i(int i, t_fdf *d, int err);
 void	allocate_matrixes(t_fdf *d);
 void	allocate_imatrix(t_fdf *d, int i);
 void	map_format_error(void);
 void	mlx_error(void);
+void	plane_setter(t_plane *p, t_fdf *d, char increment);
+void	handle_plane_error(t_fdf *d, t_plane *p);
+int		get_height(char *filename);
+int		get_width(char *filename, int height);
 #endif

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:40 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/19 11:55:32 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:48:23 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,4 @@ int	is_valid_hex_format(char *str)
 	if (cc == 1)
 		return (1);
 	return (0);
-}
-
-float	f_max(float a, float b)
-{
-	if (a > b)
-		return (a);
-	else
-		return (b);
 }

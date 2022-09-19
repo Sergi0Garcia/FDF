@@ -6,71 +6,37 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:41:50 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/19 13:21:46 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:13:16 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-static int	get_height(char *filename)
+void	free_hex_num(char *num, char **hex)
 {
-	int		fd;
-	int		height;
-	char	*line;
-
-	height = 0;
-	fd = open(filename, O_RDONLY, 0);
-	fd_validation(fd);
-	line = get_next_line(fd);
-	while (line && ft_strlen(line))
+	free(num);
+	if (hex)
 	{
-		height++;
-		free(line);
-		line = get_next_line(fd);
+		free(hex[0]);
+		free(hex[1]);
+		free(hex);
 	}
-	close(fd);
-	return (height);
 }
 
-static int	get_width(char *filename, int height)
+void	handle_extra_map(int i, int *row, int *color, int width)
 {
-	int		fd;
-	int		i;
-	int		width;
-	int		max_width;
-	char	*line;
+	int	ix;
 
-	i = 0;
-	fd = open(filename, O_RDONLY, 0);
-	fd_validation(fd);
-	line = get_next_line(fd);
-	while (line && ft_strlen(line) && i < height)
+	ix = i;
+	if (ix - width != 0)
 	{
-		width = ft_width_counter(line);
-		if (i == 0)
-			max_width = width;
-		if (width > max_width)
-			max_width = width;
-		if (width <= 1)
+		while (ix < width)
 		{
-			free(line);
-			map_format_error();
+			row[ix] = 0;
+			color[ix] = 0;
+			ix++;
 		}
-		free(line);
-		line = get_next_line(fd);
-		i++;
 	}
-	free(line);
-	close(fd);
-	system("leaks fdf");
-	return (max_width);
-}
-
-void	free_hex(char **hex)
-{
-	free(hex[0]);
-	free(hex[1]);
-	free(hex);
 }
 
 static void	fill_row_matrix(int *row, int *color, char *line, int width)
@@ -88,28 +54,18 @@ static void	fill_row_matrix(int *row, int *color, char *line, int width)
 			hex = ft_split(num[i], ',');
 			row[i] = ft_atoi(hex[0]);
 			color[i] = ft_hex_to_int(hex[1]);
-			free(num[i]);
-			free_hex(hex);
+			free_hex_num(num[i], hex);
 		}
 		else
 		{
 			row[i] = ft_atoi(num[i]);
 			color[i] = 0;
-			free(num[i]);
+			free_hex_num(num[i], 0);
 		}
 		i++;
 	}
 	free(num);
-	if (i - width != 0)
-	{
-		while(i < width)
-		{
-			row[i] = 0;
-			color[i] = 0;
-			i++;
-		}
-	}
-	system("leaks fdf");
+	handle_extra_map(i, row, color, width);
 }
 
 void	read_map(char *filename, t_fdf *d)

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 13:31:42 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/19 13:22:45 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:10:53 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	argc_validation(int argc)
 
 void	map_format_error(void)
 {
-		ft_printf("Error in map, verify there are no empty rows or that all rows have same columns \n");
-		system("leaks fdf");
-		exit(EXIT_FAILURE);
+	ft_printf("Found wrong line length. Exiting.\n");
+	system("leaks fdf");
+	exit(EXIT_FAILURE);
 }
 
 void	malloc_error(t_fdf *d)
