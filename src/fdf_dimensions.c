@@ -6,11 +6,19 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 14:11:21 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/19 14:12:55 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/19 14:21:37 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
+
+void	handle_max_width_finder(int *max_width, int width, int i)
+{
+	if (i == 0)
+		*max_width = width;
+	if (width > *max_width)
+		*max_width = width;
+}
 
 int	get_height(char *filename)
 {
@@ -58,12 +66,4 @@ int	get_width(char *filename, int height)
 	if (width <= 1)
 		map_format_error();
 	return (max_width);
-}
-
-void	handle_max_width_finder(int *max_width, int width, int i)
-{
-	if (i == 0)
-		*max_width = width;
-	if (width > *max_width)
-		*max_width = width;
 }
