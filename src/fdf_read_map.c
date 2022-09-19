@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:41:50 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/15 14:08:56 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:21:46 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static int	get_height(char *filename)
 	int		height;
 	char	*line;
 
+	height = 0;
 	fd = open(filename, O_RDONLY, 0);
 	fd_validation(fd);
-	height = 0;
 	line = get_next_line(fd);
 	while (line && ft_strlen(line))
 	{
@@ -32,19 +32,38 @@ static int	get_height(char *filename)
 	return (height);
 }
 
-static int	get_width(char *filename)
+static int	get_width(char *filename, int height)
 {
 	int		fd;
+	int		i;
 	int		width;
+	int		max_width;
 	char	*line;
 
+	i = 0;
 	fd = open(filename, O_RDONLY, 0);
 	fd_validation(fd);
 	line = get_next_line(fd);
-	width = ft_width_counter(line);
+	while (line && ft_strlen(line) && i < height)
+	{
+		width = ft_width_counter(line);
+		if (i == 0)
+			max_width = width;
+		if (width > max_width)
+			max_width = width;
+		if (width <= 1)
+		{
+			free(line);
+			map_format_error();
+		}
+		free(line);
+		line = get_next_line(fd);
+		i++;
+	}
 	free(line);
 	close(fd);
-	return (width);
+	system("leaks fdf");
+	return (max_width);
 }
 
 void	free_hex(char **hex)
@@ -54,7 +73,7 @@ void	free_hex(char **hex)
 	free(hex);
 }
 
-static void	fill_row_matrix(int *row, int *color, char *line)
+static void	fill_row_matrix(int *row, int *color, char *line, int width)
 {
 	char	**num;
 	char	**hex;
@@ -81,6 +100,16 @@ static void	fill_row_matrix(int *row, int *color, char *line)
 		i++;
 	}
 	free(num);
+	if (i - width != 0)
+	{
+		while(i < width)
+		{
+			row[i] = 0;
+			color[i] = 0;
+			i++;
+		}
+	}
+	system("leaks fdf");
 }
 
 void	read_map(char *filename, t_fdf *d)
@@ -90,25 +119,12 @@ void	read_map(char *filename, t_fdf *d)
 	int		i;
 
 	d->height = get_height(filename);
-	d->width = get_width(filename);
-	d->z_matrix = (int **)malloc(sizeof(int *) * (d->height + 1));
-	if (!d->z_matrix)
-	{
-		perror("Error");
-		exit(EXIT_FAILURE);
-	}
-	d->hex_color = (int **)malloc(sizeof(int *) * (d->height + 1));
-	if (!d->hex_color)
-	{
-		perror("Error");
-		exit(EXIT_FAILURE);
-	}
+	d->width = get_width(filename, d->height);
+	allocate_matrixes(d);
 	i = 0;
 	while (i <= d->height)
 	{
-		d->z_matrix[i] = (int *)malloc(sizeof(int) * (d->width + 1));
-		d->hex_color[i] = (int *)malloc(sizeof(int) * (d->width + 1));
-		// TODO FREE WHEN ERROR IN MALLOC
+		allocate_imatrix(d, i);
 		i++;
 	}
 	fd = open(filename, O_RDONLY, 0);
@@ -117,10 +133,9 @@ void	read_map(char *filename, t_fdf *d)
 	while (i < d->height)
 	{
 		line = get_next_line(fd);
-		fill_row_matrix(d->z_matrix[i], d->hex_color[i], line);
+		fill_row_matrix(d->z_matrix[i], d->hex_color[i], line, d->width);
 		free(line);
 		i++;
 	}
 	close(fd);
-	system("leaks fdf");
 }

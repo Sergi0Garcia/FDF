@@ -6,11 +6,12 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:02 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/15 14:05:51 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:33:03 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
+#include "stdio.h"
 
 void	set_default(t_fdf *d)
 {
@@ -25,7 +26,11 @@ void	set_default(t_fdf *d)
 	d->shift_y = d->win_y / 3;
 	d->is_isometric = 0;
 	d->mlx_ptr = mlx_init();
+	if (!d->mlx_ptr)
+		mlx_error();
 	d->win_ptr = mlx_new_window(d->mlx_ptr, d->win_x, d->win_y, "FDF");
+	if (!d->win_ptr)
+		mlx_error();
 }
 
 int	main(int argc, char **argv)
@@ -34,10 +39,11 @@ int	main(int argc, char **argv)
 
 	argc_validation(argc);
 	data = (t_fdf *)malloc(sizeof(t_fdf));
+	if (!data)
+		malloc_error(data);
 	set_default(data);
 	read_map(argv[1], data);
 	draw(data);
 	mlx_key_hook(data->win_ptr, key_handler, data);
 	mlx_loop(data->mlx_ptr);
-	system("leaks fdf");
 }
