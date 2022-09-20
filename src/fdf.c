@@ -6,12 +6,11 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:02 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/19 15:03:45 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:21:43 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
-#include "stdio.h"
 
 void	set_default(t_fdf *d)
 {
@@ -20,6 +19,7 @@ void	set_default(t_fdf *d)
 	d->rotation_y = 0.0;
 	d->rotation_z = 0.0;
 	d->zoom = 10;
+	d->is_blur = 0;
 	d->win_x = 2560;
 	d->win_y = 1400;
 	d->shift_x = d->win_x / 2;

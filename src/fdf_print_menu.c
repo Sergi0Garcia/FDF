@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 11:50:16 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/17 17:28:02 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:23:58 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ void	fdf_print_menu(t_fdf *d)
 	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 50, color, "Exit -> esc");
 	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 70, color, "Zoom -> +, -");
 	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 90, color, "Z * -> z, x");
-	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 110, color, "Rotate x -> 1, 2");
-	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 130, color, "Rotate y -> 3, 4");
-	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 150, color, "Rotate z -> 5, 6");
-	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 180, color, "--- screen ---");
-	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 200, color, "Full screen -> f");
-	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 220, color, "1080x1080 -> g");
-	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 240, color, "1280x720 -> h");
+	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 110, color, "Blur -> b");
+	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 130, color, "Rotate x -> 1, 2");
+	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 150, color, "Rotate y -> 3, 4");
+	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 170, color, "Rotate z -> 5, 6");
+	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 190, color, "--- screen ---");
+	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 210, color, "Full screen -> f");
+	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 230, color, "1080x1080 -> g");
+	mlx_string_put(d->mlx_ptr, d->win_ptr, 10, 250, color, "1280x720 -> h");
 }

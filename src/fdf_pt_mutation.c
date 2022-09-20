@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 14:08:11 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 12:29:11 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:23:54 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	translation(float *x, float *y, t_fdf *d)
 	*y += d->shift_y;
 }
 
-void	ft_handle_2d(t_plane *p, t_fdf *d)
+void	ft_handle_2d(t_line *p, t_fdf *d)
 {
 	ft_zoom(&p->x, &p->y, d);
 	translation(&p->x, &p->y, d);
@@ -38,7 +38,7 @@ void	ft_handle_2d(t_plane *p, t_fdf *d)
 	translation(&p->x1, &p->y1, d);
 }
 
-void	ft_handle_3d(t_plane *p, t_fdf *d)
+void	ft_handle_3d(t_line *p, t_fdf *d)
 {
 	rotation_xyz(&p->x, &p->y, &p->z, d);
 	isometric(&p->x, &p->y, &p->z);

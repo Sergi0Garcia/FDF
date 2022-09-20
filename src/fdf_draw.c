@@ -6,90 +6,94 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:32:31 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 12:33:31 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:18:32 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-void	increment_handler(t_plane *p)
+void	increment_handler(t_line *l)
 {
-	p->x_step = p->x1 - p->x;
-	p->y_step = p->y1 - p->y;
-	p->max = f_max(fabs(p->x_step), fabs(p->y_step));
-	p->x_step /= p->max;
-	p->y_step /= p->max;
+	l->x_step = l->x1 - l->x;
+	l->y_step = l->y1 - l->y;
+	l->max = f_max(fabs(l->x_step), fabs(l->y_step));
+	l->x_step /= l->max;
+	l->y_step /= l->max;
 }
 
-void	define_color(t_plane *p, t_fdf *d)
+void	define_color(t_line *l, t_fdf *d)
 {
 	int	color;
 
-	p->is_slope = 0;
-	color = d->hex_color[(int)p->y][(int)p->x];
+	l->is_slope = 0;
+	color = d->hex_color[(int)l->y][(int)l->x];
 	if (color)
 		d->color = color;
-	else if ((p->z || p->z1) && (p->z == p->z1))
+	else if ((l->z || l->z1) && (l->z == l->z1))
 		d->color = 0xBF40BF;
-	else if (d->is_isometric == 0 && (p->z || p->z1))
+	else if (d->is_isometric == 0 && (l->z || l->z1))
 		d->color = 0xBF40BF;
-	else if ((p->z || p->z1) && (p->z != p->z1))
-		p->is_slope = 1;
+	else if ((l->z || l->z1) && (l->z != l->z1) && d->is_blur == 0)
+		d->color = 0xBF40BF;
+	else if ((l->z || l->z1) && (l->z != l->z1))
+		l->is_slope = 1;
 	else
 		d->color = 0xFFFFFF;
 }
 
-void	handle_slope_blur(t_plane *p, t_fdf *d)
+void	handle_slope_blur(t_line *l, t_fdf *d)
 {
-	if (p->is_slope)
-			p->i_slope++;
-	if (p->i_slope)
+	if (d->is_blur == 0)
+		return ;
+	if (l->is_slope)
+			l->i_slope++;
+	if (l->i_slope)
 	{
-		if ((p->i_slope / p->max) >= 0.1)
+		if ((l->i_slope / l->max) >= 0.1)
 			d->color = 0xff9507;
-		if ((p->i_slope / p->max) >= 0.2)
+		if ((l->i_slope / l->max) >= 0.2)
 			d->color = 0xffa62e;
-		if ((p->i_slope / p->max) >= 0.3)
+		if ((l->i_slope / l->max) >= 0.3)
 			d->color = 0xffae42;
-		if ((p->i_slope / p->max) >= 0.4)
+		if ((l->i_slope / l->max) >= 0.4)
 			d->color = 0xffb656;
-		if ((p->i_slope / p->max) >= 0.5)
+		if ((l->i_slope / l->max) >= 0.5)
 			d->color = 0xffbf69;
-		if ((p->i_slope / p->max) >= 0.6)
+		if ((l->i_slope / l->max) >= 0.6)
 			d->color = 0xffc77d;
-		if ((p->i_slope / p->max) >= 0.7)
+		if ((l->i_slope / l->max) >= 0.7)
 			d->color = 0xffd090;
-		if ((p->i_slope / p->max) >= 0.8)
+		if ((l->i_slope / l->max) >= 0.8)
 			d->color = 0xffe0b8;
-		if ((p->i_slope / p->max) >= 0.9)
+		if ((l->i_slope / l->max) >= 0.9)
 			d->color = 0xffe9cb;
 	}
 }
 
 void	bresenham(float x, float y, char increment, t_fdf *d)
 {
-	t_plane	*p;
+	t_line	*l;
 
-	p = (t_plane *)malloc(sizeof(t_plane));
-	handle_plane_error(d, p);
-	p->x = x;
-	p->y = y;
-	plane_setter(p, d, increment);
-	define_color(p, d);
+	l = (t_line *)malloc(sizeof(t_line));
+	line_validation(d, l);
+	l->x = x;
+	l->y = y;
+	line_setter(l, d, increment);
+	define_color(l, d);
 	if (d->is_isometric == 1)
-		ft_handle_3d(p, d);
-	ft_handle_2d(p, d);
-	increment_handler(p);
-	while ((int)(p->x - p->x1) || (int)(p->y - p->y1))
+		ft_handle_3d(l, d);
+	ft_handle_2d(l, d);
+	increment_handler(l);
+	while ((int)(l->x - l->x1) || (int)(l->y - l->y1))
 	{
-		handle_slope_blur(p, d);
-		mlx_pixel_put(d->mlx_ptr, d->win_ptr, p->x, p->y, d->color);
-		p->x += p->x_step;
-		p->y += p->y_step;
-		if (p->x > d->win_x || p->y > d->win_y)
+		handle_slope_blur(l, d);
+		mlx_pixel_put(d->mlx_ptr, d->win_ptr, l->x, l->y, d->color);
+		l->x += l->x_step;
+		l->y += l->y_step;
+		if (l->x > d->win_x || l->y > d->win_y)
 			break ;
 	}
-	free(p);
+	free(l);
 }
 
 void	draw(t_fdf *d)

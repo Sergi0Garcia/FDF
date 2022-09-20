@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 12:30:23 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:05:02 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include "./minilibx_macos/mlx.h"
 # include "./ft_libft/libft.h"
 # include <unistd.h>
-# include <stdio.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
 
@@ -28,6 +28,7 @@ typedef struct s_fdf
 	int		**z_matrix;
 	int		**hex_color;
 	int		color;
+	int		is_blur;
 	float	z_mult;
 	int		shift_x;
 	int		shift_y;
@@ -42,7 +43,7 @@ typedef struct s_fdf
 	void	*win_ptr;
 }	t_fdf;
 
-typedef struct s_plane
+typedef struct s_line
 {
 	float	x_step;
 	float	y_step;
@@ -55,7 +56,7 @@ typedef struct s_plane
 	float	y1;
 	float	z;
 	float	z1;
-}	t_plane;
+}	t_line;
 
 int		key_handler(int key, t_fdf *d);
 void	draw(t_fdf *d);
@@ -63,8 +64,8 @@ int		ft_hex_to_int(char *hex);
 void	fdf_print_menu(t_fdf *d);
 void	rotation_xyz(float *x, float *y, float *z, t_fdf *d);
 void	read_map(char *filename, t_fdf *d);
-void	ft_handle_2d(t_plane *p, t_fdf *d);
-void	ft_handle_3d(t_plane *p, t_fdf *d);
+void	ft_handle_2d(t_line *p, t_fdf *d);
+void	ft_handle_3d(t_line *p, t_fdf *d);
 int		full_size(int key, t_fdf *d);
 int		is_valid_hex_format(char *str);
 float	f_max(float a, float b);
@@ -76,8 +77,8 @@ void	allocate_matrixes(t_fdf *d);
 void	allocate_imatrix(t_fdf *d, int i);
 void	map_format_error(void);
 void	mlx_error(void);
-void	plane_setter(t_plane *p, t_fdf *d, char increment);
-void	handle_plane_error(t_fdf *d, t_plane *p);
+void	line_setter(t_line *p, t_fdf *d, char increment);
+void	line_validation(t_fdf *d, t_line *p);
 int		get_height(char *filename);
 int		get_width(char *filename, int height);
 #endif

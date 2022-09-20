@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:48:16 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 12:31:13 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 13:28:58 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ float	f_max(float a, float b)
 		return (b);
 }
 
-void	plane_setter(t_plane *p, t_fdf *d, char increment)
+void	line_setter(t_line *p, t_fdf *d, char increment)
 {
 	if (increment == 'x')
 	{
@@ -37,7 +37,7 @@ void	plane_setter(t_plane *p, t_fdf *d, char increment)
 	p->i_slope = 0;
 }
 
-void	handle_plane_error(t_fdf *d, t_plane *p)
+void	line_validation(t_fdf *d, t_line *p)
 {
 	int	i;
 
