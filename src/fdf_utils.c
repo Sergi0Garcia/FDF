@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 10:10:40 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 13:21:51 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:45:12 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,19 @@ int	is_valid_hex_format(char *str)
 	len = ft_strlen(str);
 	while (i < len)
 	{
-		if (str[i] == ',')
+		if (str[i] == ',' && str[i + 1])
 			cc++;
 		i++;
 	}
 	if (cc == 1)
 		return (1);
 	return (0);
+}
+
+void	set_opposite(int val, int *var)
+{
+	if (val == 1)
+			*var = 0;
+	if (val == 0)
+			*var = 1;
 }

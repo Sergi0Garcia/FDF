@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 13:22:54 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 13:24:05 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:41:45 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	handle_size(int key, t_fdf *d)
 	}
 }
 
-int	full_size(int key, t_fdf *d)
+int	handle_win_size(int key, t_fdf *d)
 {
 	mlx_destroy_window(d->mlx_ptr, d->win_ptr);
 	handle_size(key, d);

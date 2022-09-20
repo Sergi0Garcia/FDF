@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_dimensions.c                                   :+:      :+:    :+:   */
+/*   fdf_read_dimensions.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 14:11:21 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 12:57:14 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:43:48 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-void	handle_max_width_finder(int *max_width, int width, int i)
+static void	handle_max_width_finder(int *max_width, int width, int i)
 {
 	if (i == 0)
 		*max_width = width;

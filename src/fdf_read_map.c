@@ -6,24 +6,26 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:41:50 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 13:22:15 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:44:51 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-void	free_hex_num(char *num, char **hex)
+static void	free_hex_num(char *num, char **hex)
 {
 	free(num);
 	if (hex)
 	{
-		free(hex[0]);
-		free(hex[1]);
+		if (hex[0])
+			free(hex[0]);
+		if (hex[1])
+			free(hex[1]);
 		free(hex);
 	}
 }
 
-void	handle_extra_map(int i, int *row, int *color, int width)
+static void	handle_extra_map(int i, int *row, int *color, int width)
 {
 	int	ix;
 
@@ -37,6 +39,14 @@ void	handle_extra_map(int i, int *row, int *color, int width)
 			ix++;
 		}
 	}
+}
+
+static int	define_color_hex(char *hex)
+{
+	if (hex)
+		return (ft_hex_to_int(hex));
+	else
+		return (0);
 }
 
 static void	fill_row_matrix(int *row, int *color, char *line, int width)
@@ -53,7 +63,7 @@ static void	fill_row_matrix(int *row, int *color, char *line, int width)
 		{
 			hex = ft_split(num[i], ',');
 			row[i] = ft_atoi(hex[0]);
-			color[i] = ft_hex_to_int(hex[1]);
+			color[i] = define_color_hex(hex[1]);
 			free_hex_num(num[i], hex);
 		}
 		else

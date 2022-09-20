@@ -6,13 +6,13 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:32:31 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 13:18:32 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:39:46 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-void	increment_handler(t_line *l)
+static void	increment_handler(t_line *l)
 {
 	l->x_step = l->x1 - l->x;
 	l->y_step = l->y1 - l->y;
@@ -21,7 +21,7 @@ void	increment_handler(t_line *l)
 	l->y_step /= l->max;
 }
 
-void	define_color(t_line *l, t_fdf *d)
+static void	define_color(t_line *l, t_fdf *d)
 {
 	int	color;
 
@@ -41,7 +41,7 @@ void	define_color(t_line *l, t_fdf *d)
 		d->color = 0xFFFFFF;
 }
 
-void	handle_slope_blur(t_line *l, t_fdf *d)
+static void	handle_slope_blur(t_line *l, t_fdf *d)
 {
 	if (d->is_blur == 0)
 		return ;
@@ -70,7 +70,7 @@ void	handle_slope_blur(t_line *l, t_fdf *d)
 	}
 }
 
-void	bresenham(float x, float y, char increment, t_fdf *d)
+static void	bresenham(float x, float y, char increment, t_fdf *d)
 {
 	t_line	*l;
 

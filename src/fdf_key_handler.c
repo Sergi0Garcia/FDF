@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:53:57 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 13:24:18 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:41:16 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,14 @@ static void	handle_rotation(int key, t_fdf *d)
 		d->rotation_z += 0.1;
 }
 
-
 static void	handle_mutation(int key, t_fdf *d)
 {
-	int	val;
-
 	if (key == 6)
 		d->z_mult += 0.2;
 	if (key == 7)
 		d->z_mult -= 0.2;
 	if (key == 24)
 		d->zoom += 5;
-	if (key == 11)
-	{
-		val = d->is_blur;
-		if (val == 1)
-			d->is_blur = 0;
-		if (val == 0)
-			d->is_blur = 1;
-	}
 	if (key == 27)
 	{
 		if (d->zoom -2 <= 1)
@@ -74,14 +63,10 @@ static void	handle_mutation(int key, t_fdf *d)
 		else
 			d->zoom -= 2;
 	}
+	if (key == 11)
+		set_opposite(d->is_blur, &d->is_blur);
 	if (key == 34)
-	{
-		val = d->is_isometric;
-		if (val == 1)
-			d->is_isometric = 0;
-		if (val == 0)
-			d->is_isometric = 1;
-	}
+		set_opposite(d->is_isometric, &d->is_isometric);
 }
 
 int	key_handler(int key, t_fdf *d)
@@ -89,7 +74,7 @@ int	key_handler(int key, t_fdf *d)
 	if (is_valid_key(key))
 	{
 		if (key == 3 || key == 4 || key == 5)
-			return (full_size(key, d));
+			return (handle_win_size(key, d));
 		if (key > 17 && key < 24)
 			handle_rotation(key, d);
 		else if (key > 122 && key < 127)
