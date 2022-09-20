@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/19 14:15:17 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:17:28 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct s_plane
 {
 	float	x_step;
 	float	y_step;
+	float	max;
+	int		is_slope;
+	int		i_slope;
 	float	x;
 	float	y;
 	float	x1;

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:48:16 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/19 13:57:20 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:20:50 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	plane_setter(t_plane *p, t_fdf *d, char increment)
 	}
 	p->z = (d->z_matrix[(int)p->y][(int)p->x]) * d->z_mult;
 	p->z1 = (d->z_matrix[(int)p->y1][(int)p->x1]) * d->z_mult;
+	p->i_slope = 0;
 }
 
 void	handle_plane_error(t_fdf *d, t_plane *p)
