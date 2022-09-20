@@ -6,12 +6,11 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:32:31 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 12:22:08 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:33:31 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
-# include <stdio.h>
 
 void	increment_handler(t_plane *p)
 {
@@ -22,17 +21,9 @@ void	increment_handler(t_plane *p)
 	p->y_step /= p->max;
 }
 
-void	handle_blur(float num, t_fdf *d)
-{
-	if (num <= 20 || num >= 80)
-		d->color = 0xFF0000;
-	else
-		d->color = 0xFFFFFF;
-}
-
 void	define_color(t_plane *p, t_fdf *d)
 {
-	int color;
+	int	color;
 
 	p->is_slope = 0;
 	color = d->hex_color[(int)p->y][(int)p->x];
@@ -54,25 +45,25 @@ void	handle_slope_blur(t_plane *p, t_fdf *d)
 			p->i_slope++;
 	if (p->i_slope)
 	{
-		if ((p->i_slope/p->max) >= 0.1)
+		if ((p->i_slope / p->max) >= 0.1)
 			d->color = 0xff9507;
-		if ((p->i_slope/p->max) >= 0.2)
+		if ((p->i_slope / p->max) >= 0.2)
 			d->color = 0xffa62e;
-		if ((p->i_slope/p->max) >= 0.3)
+		if ((p->i_slope / p->max) >= 0.3)
 			d->color = 0xffae42;
-		if ((p->i_slope/p->max) >= 0.4)
+		if ((p->i_slope / p->max) >= 0.4)
 			d->color = 0xffb656;
-		if ((p->i_slope/p->max) >= 0.5)
+		if ((p->i_slope / p->max) >= 0.5)
 			d->color = 0xffbf69;
-		if ((p->i_slope/p->max) >= 0.6)
+		if ((p->i_slope / p->max) >= 0.6)
 			d->color = 0xffc77d;
-		if ((p->i_slope/p->max) >= 0.7)
+		if ((p->i_slope / p->max) >= 0.7)
 			d->color = 0xffd090;
-		if ((p->i_slope/p->max) >= 0.8)
+		if ((p->i_slope / p->max) >= 0.8)
 			d->color = 0xffe0b8;
-		if ((p->i_slope/p->max) >= 0.9)
+		if ((p->i_slope / p->max) >= 0.9)
 			d->color = 0xffe9cb;
-		}
+	}
 }
 
 void	bresenham(float x, float y, char increment, t_fdf *d)
@@ -86,12 +77,8 @@ void	bresenham(float x, float y, char increment, t_fdf *d)
 	plane_setter(p, d, increment);
 	define_color(p, d);
 	if (d->is_isometric == 1)
-	{
-		ft_handle_3d(&p->x, &p->y, &p->z, d);
-		ft_handle_3d(&p->x1, &p->y1, &p->z1, d);
-	}
-	ft_handle_2d(&p->x, &p->y, d);
-	ft_handle_2d(&p->x1, &p->y1, d);
+		ft_handle_3d(p, d);
+	ft_handle_2d(p, d);
 	increment_handler(p);
 	while ((int)(p->x - p->x1) || (int)(p->y - p->y1))
 	{

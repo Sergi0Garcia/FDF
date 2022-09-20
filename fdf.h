@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 12:17:28 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:30:23 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int		ft_hex_to_int(char *hex);
 void	fdf_print_menu(t_fdf *d);
 void	rotation_xyz(float *x, float *y, float *z, t_fdf *d);
 void	read_map(char *filename, t_fdf *d);
-void	ft_handle_2d(float *x, float *y, t_fdf *d);
-void	ft_handle_3d(float *x, float *y, float *z, t_fdf *d);
+void	ft_handle_2d(t_plane *p, t_fdf *d);
+void	ft_handle_3d(t_plane *p, t_fdf *d);
 int		full_size(int key, t_fdf *d);
 int		is_valid_hex_format(char *str);
 float	f_max(float a, float b);
