@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:53:57 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 14:41:16 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:56:00 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	key_handler(int key, t_fdf *d)
 			handle_mutation(key, d);
 		else if (key == 53)
 		{
+			free_all(d);
 			mlx_destroy_window(d->mlx_ptr, d->win_ptr);
 			exit(0);
 		}

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 14:53:41 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:06:50 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,6 @@ void	read_map(char *filename, t_fdf *d);
 int		ft_hex_to_int(char *hex);
 int		is_valid_hex_format(char *str);
 void	set_opposite(int val, int *var);
+int		close_win(t_fdf *d);
+void	free_all(t_fdf *d);
 #endif

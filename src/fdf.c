@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:02 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 14:29:45 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:08:05 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char **argv)
 	set_default(data);
 	read_map(argv[1], data);
 	draw(data);
+	mlx_hook(data->win_ptr, 17, 1, close_win, data);
 	mlx_key_hook(data->win_ptr, key_handler, data);
 	mlx_loop(data->mlx_ptr);
 }

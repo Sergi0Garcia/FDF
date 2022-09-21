@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 13:22:54 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 14:41:45 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:08:00 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ static void	handle_size(int key, t_fdf *d)
 	}
 }
 
+int	close_win(t_fdf *d)
+{
+	free_all(d);
+	exit(0);
+	return (0);
+}
+
 int	handle_win_size(int key, t_fdf *d)
 {
 	mlx_destroy_window(d->mlx_ptr, d->win_ptr);
@@ -46,6 +53,7 @@ int	handle_win_size(int key, t_fdf *d)
 	d->mlx_ptr = mlx_init();
 	d->win_ptr = mlx_new_window(d->mlx_ptr, d->win_x, d->win_y, "FDF");
 	draw(d);
+	mlx_hook(d->win_ptr, 17, 0, close_win, d);
 	mlx_key_hook(d->win_ptr, key_handler, d);
 	mlx_loop(d->mlx_ptr);
 	return (0);

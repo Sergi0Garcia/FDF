@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:48:16 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 14:38:56 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:08:17 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,25 @@ void	line_setter(t_line *p, t_fdf *d, char increment)
 
 void	line_validation(t_fdf *d, t_line *p)
 {
-	int	i;
-
 	if (p)
 		return ;
+	free_all(d);
+	malloc_error(d);
+}
+
+void	free_all(t_fdf *d)
+{
+	int	i;
+
 	i = d->height;
 	while (i >= 0)
 	{
-		free(d->z_matrix[i]);
-		free(d->hex_color[i]);
+		if (d->z_matrix[i])
+			free(d->z_matrix[i]);
+		if (d->hex_color[i])
+			free(d->hex_color[i]);
 		i--;
 	}
 	free(d->z_matrix);
 	free(d->hex_color);
-	malloc_error(d);
 }
