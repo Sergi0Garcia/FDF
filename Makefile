@@ -6,7 +6,7 @@
 #    By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/23 11:05:56 by segarcia          #+#    #+#              #
-#    Updated: 2022/09/22 11:47:40 by segarcia         ###   ########.fr        #
+#    Updated: 2022/09/22 11:48:51 by segarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,5 @@ clean:
 fclean: clean
 	/bin/rm -f $(NAME)
 	@make -C ft_libft/ fclean
-	@make -C minilibx_macos/ fclean
 
 re: fclean all
