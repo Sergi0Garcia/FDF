@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 13:41:50 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/21 13:37:35 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:17:45 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	read_map(char *filename, t_fdf *d)
 		i++;
 	}
 	fd = open(filename, O_RDONLY, 0);
-	fd_validation(fd);
+	fd_validation(fd, d);
 	i = 0;
 	while (i < d->height)
 	{

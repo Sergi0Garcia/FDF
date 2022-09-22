@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 14:08:11 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 14:42:17 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:22:07 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ static void	translation(float *x, float *y, t_fdf *d)
 	*y += d->shift_y;
 }
 
-void	ft_handle_2d(t_line *p, t_fdf *d)
+void	ft_handle_2d(t_line *l, t_fdf *d)
 {
-	ft_zoom(&p->x, &p->y, d);
-	translation(&p->x, &p->y, d);
-	ft_zoom(&p->x1, &p->y1, d);
-	translation(&p->x1, &p->y1, d);
+	ft_zoom(&l->x, &l->y, d);
+	translation(&l->x, &l->y, d);
+	ft_zoom(&l->x1, &l->y1, d);
+	translation(&l->x1, &l->y1, d);
 }
 
-void	ft_handle_3d(t_line *p, t_fdf *d)
+void	ft_handle_3d(t_line *l, t_fdf *d)
 {
-	rotation_xyz(&p->x, &p->y, &p->z, d);
-	isometric(&p->x, &p->y, &p->z);
-	rotation_xyz(&p->x1, &p->y1, &p->z1, d);
-	isometric(&p->x1, &p->y1, &p->z1);
+	rotation_xyz(&l->x, &l->y, &l->z, d);
+	isometric(&l->x, &l->y, &l->z);
+	rotation_xyz(&l->x1, &l->y1, &l->z1, d);
+	isometric(&l->x1, &l->y1, &l->z1);
 }

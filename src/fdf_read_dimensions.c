@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 14:11:21 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/20 14:43:48 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:16:50 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	get_height(char *filename)
 
 	height = 0;
 	fd = open(filename, O_RDONLY, 0);
-	fd_validation(fd);
+	fd_validation(fd, NULL);
 	line = get_next_line(fd);
 	while (line && ft_strlen(line))
 	{
@@ -36,6 +36,8 @@ int	get_height(char *filename)
 		free(line);
 		line = get_next_line(fd);
 	}
+	if (line)
+		free(line);
 	close(fd);
 	return (height);
 }
@@ -49,11 +51,11 @@ int	get_width(char *filename, int height)
 	char	*line;
 
 	i = 0;
-	width = 2;
+	width = 1;
 	fd = open(filename, O_RDONLY, 0);
-	fd_validation(fd);
+	fd_validation(fd, NULL);
 	line = get_next_line(fd);
-	while (line && width > 1 && i < height)
+	while (line && width > 0 && i < height)
 	{
 		width = ft_width_counter(line);
 		handle_max_width_finder(&max_width, width, i);
@@ -61,9 +63,10 @@ int	get_width(char *filename, int height)
 		line = get_next_line(fd);
 		i++;
 	}
-	free(line);
+	if (line)
+		free(line);
 	close(fd);
-	if (width <= 1)
+	if (width <= 0)
 		map_format_error();
 	return (max_width);
 }

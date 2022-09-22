@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:44 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/21 14:30:09 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:29:02 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ typedef struct s_line
 }	t_line;
 
 float	f_max(float a, float b);
-void	line_setter(t_line *p, t_fdf *d, char increment);
-void	line_validation(t_fdf *d, t_line *p);
+void	line_setter(t_line *l, t_fdf *d, char increment);
+void	line_validation(t_fdf *d, t_line *l);
 void	draw(t_fdf *d);
-void	fd_validation(int fd);
+void	fd_validation(int fd, t_fdf *d);
 void	argc_validation(int argc);
 void	map_format_error(void);
 void	malloc_error(t_fdf *d);
@@ -70,8 +70,8 @@ void	mlx_error(void);
 int		key_handler(int key, t_fdf *d);
 int		handle_win_size(int key, t_fdf *d);
 void	fdf_print_menu(t_fdf *d);
-void	ft_handle_2d(t_line *p, t_fdf *d);
-void	ft_handle_3d(t_line *p, t_fdf *d);
+void	ft_handle_2d(t_line *l, t_fdf *d);
+void	ft_handle_3d(t_line *l, t_fdf *d);
 void	rotation_xyz(float *x, float *y, float *z, t_fdf *d);
 int		get_height(char *filename);
 int		get_width(char *filename, int height);

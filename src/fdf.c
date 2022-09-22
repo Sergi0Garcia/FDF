@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 11:19:02 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/21 15:00:30 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:29:58 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,11 @@ void	set_default(t_fdf *d)
 	d->is_blur = 0;
 	d->win_x = 2560;
 	d->win_y = 1400;
+	d->is_isometric = 0;
 	d->shift_x = d->win_x / 2;
 	d->shift_y = d->win_y / 3;
-	d->is_isometric = 0;
 	d->mlx_ptr = mlx_init();
-	if (!d->mlx_ptr)
-		mlx_error();
 	d->win_ptr = mlx_new_window(d->mlx_ptr, d->win_x, d->win_y, "FDF");
-	if (!d->win_ptr)
-		mlx_error();
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: segarcia <segarcia@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 13:48:16 by segarcia          #+#    #+#             */
-/*   Updated: 2022/09/21 14:18:31 by segarcia         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:20:53 by segarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,26 @@ float	f_max(float a, float b)
 		return (b);
 }
 
-void	line_setter(t_line *p, t_fdf *d, char increment)
+void	line_setter(t_line *l, t_fdf *d, char increment)
 {
 	if (increment == 'x')
 	{
-		p->x1 = p->x + 1;
-		p->y1 = p->y;
+		l->x1 = l->x + 1;
+		l->y1 = l->y;
 	}
 	if (increment == 'y')
 	{
-		p->x1 = p->x;
-		p->y1 = p->y + 1;
+		l->x1 = l->x;
+		l->y1 = l->y + 1;
 	}
-	p->z = (d->z_matrix[(int)p->y][(int)p->x]) * d->z_mult;
-	p->z1 = (d->z_matrix[(int)p->y1][(int)p->x1]) * d->z_mult;
-	p->i_slope = 0;
+	l->z = (d->z_matrix[(int)l->y][(int)l->x]) * d->z_mult;
+	l->z1 = (d->z_matrix[(int)l->y1][(int)l->x1]) * d->z_mult;
+	l->i_slope = 0;
 }
 
-void	line_validation(t_fdf *d, t_line *p)
+void	line_validation(t_fdf *d, t_line *l)
 {
-	if (p)
+	if (l)
 		return ;
 	free_all(d);
 	malloc_error(d);
